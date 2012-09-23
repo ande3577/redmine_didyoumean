@@ -1,15 +1,14 @@
 function observeIssueSubjectField(project_id) {
 
-  $('issue_subject').observe('change', function(event){
+	document.getElementById('issue_subject').onchange = function(event){
     emptySimilarIssuesBlock();
     var url = dym.search_url;
-    new Ajax.Request(url, {
-      parameters: {
+    new jQuery.ajax(url, {
+      data: {
         project_id: project_id,
-        query: Event.element(event).value
+        query: event.currentTarget.value
       },
-      onSuccess: function(transport) {
-        var data = transport.responseJSON;
+      success: function(data, textStatus, jqXHR) {
         if(data.total) {
           drawSimilarIssuesBlock();
           populateSimilarIssuesBlock(data);
@@ -17,32 +16,31 @@ function observeIssueSubjectField(project_id) {
       },
       evalJSON: true
     });  
-  });
+  };
 }
 
 function drawSimilarIssuesBlock() {
   
-  $('issue_subject').up().insert({after: $('similar_issues')});
+  document.getElementById('issue_subject').parentNode.appendChild(document.getElementById('similar_issues'));
 
 }
 
 function populateSimilarIssuesBlock(data) {
   
-  $('similar_issues_list').innerHTML = '';
+  document.getElementById('similar_issues_list').innerHTML = '';
   
   var items = data.issues;
   for (var i = items.length - 1; i >= 0; i--) {
     var item_html = displayItem(items[i]);
-    $('similar_issues_list').insert({top: item_html});
+    document.getElementById('similar_issues_list').innerHTML += item_html;
   };
 
- $('issues_count').innerHTML = data.total;
-  if (! $('similar_issues').visible()) {
-    $('similar_issues').show();
-  }
+  document.getElementById('issues_count').innerHTML = data.total;
+  if (document.getElementById('similar_issues').style.display == "none")
+	  document.getElementById('similar_issues').style.display = "inline";
   if (data.total > data.issues.length) {
     var more = data.total - data.issues.length;
-    $('similar_issues_list').insert({bottom: '<li>+' + more + ' ' + dym.label_more + '</li>'});
+    document.getElementById('similar_issues_list').insert({bottom: '<li>+' + more + ' ' + dym.label_more + '</li>'});
   }
 }
 
@@ -52,10 +50,9 @@ function displayItem(item) {
 
 function emptySimilarIssuesBlock() {
   
-  $('similar_issues_list').innerHTML = '';
+  document.getElementById('similar_issues_list').innerHTML = '';
 
-  if ($('similar_issues').visible()) {
-    $('similar_issues').hide();
-  }
+  if (document.getElementById('similar_issues').style.display != "none")
+	  document.getElementById('similar_issues').style.display = "none"
 
 }

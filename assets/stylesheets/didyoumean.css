@@ -1,11 +1,11 @@
 div#similar_issues {
-  padding: 5px 5px 5px 180px;
+  padding: 5px 5px 5px 5px;
 }
 
 ul#similar_issues_list {
   margin: 2px;
   list-style-type: none;
-  padding: 2px;
+  padding: 2px 2px 2px 5px;
 }
 
 #similar_issues a {

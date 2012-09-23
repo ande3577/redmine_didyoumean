@@ -2,6 +2,7 @@
 
 A Redmine plugin to search for possible duplicates when users are about to open new issues.
 You can find more information on the project wiki: https://github.com/abahgat/redmine_didyoumean/wiki
+Compatible with redmine 2.1+.  Prior versions should use version 1.1.0.
 
 == Install
 

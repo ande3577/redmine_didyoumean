@@ -1,12 +1,18 @@
 function observeIssueSubjectField(project_id) {
+	
+  handleSimilarIssues(project_id,  document.getElementById('issue_subject').value);
+  document.getElementById('issue_subject').onchange = function(event){
+	handleSimilarIssues(project_id, event.currentTarget.value);	
+  };
+}
 
-	document.getElementById('issue_subject').onchange = function(event){
+function handleSimilarIssues(project_id, subject) {
     emptySimilarIssuesBlock();
     var url = dym.search_url;
     new jQuery.ajax(url, {
       data: {
         project_id: project_id,
-        query: event.currentTarget.value
+        query: subject
       },
       success: function(data, textStatus, jqXHR) {
         if(data.total) {
@@ -15,8 +21,7 @@ function observeIssueSubjectField(project_id) {
         }
       },
       evalJSON: true
-    });  
-  };
+    });
 }
 
 function drawSimilarIssuesBlock() {

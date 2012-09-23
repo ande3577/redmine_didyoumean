@@ -45,7 +45,7 @@ function populateSimilarIssuesBlock(data) {
 	  document.getElementById('similar_issues').style.display = "inline";
   if (data.total > data.issues.length) {
     var more = data.total - data.issues.length;
-    document.getElementById('similar_issues_list').insert({bottom: '<li>+' + more + ' ' + dym.label_more + '</li>'});
+    document.getElementById('similar_issues_list').innerHTML += "<li>+" + more + " " + dym.label_more + "</li>";
   }
 }
 

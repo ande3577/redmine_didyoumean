@@ -1,15 +1,15 @@
 function observeIssueSubjectField(project_id) {
 	
-  handleSimilarIssues(project_id,  document.getElementById('issue_subject').value);
-  document.getElementById('issue_subject').onchange = function(event){
+  handleSimilarIssues(project_id,  $('#issue_subject').val());
+  $('#issue_subject').change(function(event){
 	handleSimilarIssues(project_id, event.currentTarget.value);	
-  };
+  });
 }
 
 function handleSimilarIssues(project_id, subject) {
     emptySimilarIssuesBlock();
     var url = dym.search_url;
-    new jQuery.ajax(url, {
+    $.ajax(url, {
       data: {
         project_id: project_id,
         query: subject
@@ -26,26 +26,26 @@ function handleSimilarIssues(project_id, subject) {
 
 function drawSimilarIssuesBlock() {
   
-  document.getElementById('issue_subject').parentNode.appendChild(document.getElementById('similar_issues'));
+  $('#issue_subject').parent().append($('#similar_issues'));
 
 }
 
 function populateSimilarIssuesBlock(data) {
   
-  document.getElementById('similar_issues_list').innerHTML = '';
+  $('#similar_issues_list').html('');
   
   var items = data.issues;
   for (var i = items.length - 1; i >= 0; i--) {
     var item_html = displayItem(items[i]);
-    document.getElementById('similar_issues_list').innerHTML += item_html;
+    $('#similar_issues_list').append(item_html);
   };
 
-  document.getElementById('issues_count').innerHTML = data.total;
-  if (document.getElementById('similar_issues').style.display == "none")
-	  document.getElementById('similar_issues').style.display = "inline";
+  $('#issues_count').html(data.total);
+  if (!$('#similar_issues').is(":visible"))
+	  $('#similar_issues').show();
   if (data.total > data.issues.length) {
     var more = data.total - data.issues.length;
-    document.getElementById('similar_issues_list').innerHTML += "<li>+" + more + " " + dym.label_more + "</li>";
+    $('#similar_issues_list').append("<li>+" + more + " " + dym.label_more + "</li>");
   }
 }
 
@@ -54,10 +54,8 @@ function displayItem(item) {
 }
 
 function emptySimilarIssuesBlock() {
-  
-  document.getElementById('similar_issues_list').innerHTML = '';
-
-  if (document.getElementById('similar_issues').style.display != "none")
-	  document.getElementById('similar_issues').style.display = "none"
+  $('#issues_count').html('');
+  if ($('#similar_issues').is(":visible"))
+	  $('#similar_issues').hide();
 
 }

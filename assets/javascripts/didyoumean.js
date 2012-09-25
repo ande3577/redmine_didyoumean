@@ -1,16 +1,17 @@
-function observeIssueSubjectField(project_id) {
+function observeIssueSubjectField(project_id, issue_id) {
 	
   handleSimilarIssues(project_id,  $('#issue_subject').val());
   $('#issue_subject').change(function(event){
-	handleSimilarIssues(project_id, event.currentTarget.value);	
+	handleSimilarIssues(project_id, issue_id, event.currentTarget.value);	
   });
 }
 
-function handleSimilarIssues(project_id, subject) {
+function handleSimilarIssues(project_id, issue_id, subject) {
     emptySimilarIssuesBlock();
     var url = dym.search_url;
     $.ajax(url, {
       data: {
+    	issue_id: issue_id,
         project_id: project_id,
         query: subject
       },

@@ -35,6 +35,8 @@ class SearchIssuesController < ApplicationController
 
       # pick the current project
       project = Project.find(params[:project_id]) unless params[:project_id].blank?
+        
+      issue_id = params[:issue_id] unless params[:issue_id].blank?
       
       case Setting.plugin_redmine_didyoumean['project_filter']
       when '2'
@@ -47,6 +49,13 @@ class SearchIssuesController < ApplicationController
       else
         logger.warn "Unrecognized option for project filter: [#{Setting.plugin_redmine_didyoumean['project_filter']}], skipping"
       end
+      
+      if !issue_id.nil?
+        logger.info "Ignore issue #{issue_id}"
+        conditions += " AND id != (?)"
+        variables << issue_id
+      end
+         
 
       if project_tree
         # check permissions
